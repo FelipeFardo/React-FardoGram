@@ -19,6 +19,7 @@ const register = async (req, res) => {
 
   // check if user exists
   const user = await User.findOne({ email });
+
   if (user) {
     res.status(422).json({ errors: ["Por favor, utilize outro e-mail"] });
     return;
@@ -72,7 +73,15 @@ const login = async (req, res) => {
     token: generateToken(user.id),
   });
 };
+
+// get current logged in user
+const getCurrentUser = async (req, res) => {
+  const user = req.user;
+  res.status(200).json(user);
+};
+
 module.exports = {
   register,
   login,
+  getCurrentUser,
 };
