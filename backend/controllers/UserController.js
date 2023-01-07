@@ -23,8 +23,9 @@ const register = async (req, res) => {
   const user = await User.findOne({ email });
 
   if (user) {
-    res.status(422).json({ errors: ["Por favor, utilize outro e-mail"] });
-    return;
+    return res
+      .status(422)
+      .json({ errors: ["Por favor, utilize outro e-mail"] });
   }
 
   // Generate password hash
@@ -40,12 +41,11 @@ const register = async (req, res) => {
 
   // If user was created succesfully, return the token
   if (!newUser) {
-    res
+    return res
       .status(422)
       .json({ errors: ["Houve um erro por favor tente mais tarde"] });
-    return;
   }
-  res.status(201).json({
+  return res.status(201).json({
     _id: newUser.id,
     token: generateToken(newUser.id),
   });
@@ -58,14 +58,12 @@ const login = async (req, res) => {
 
   // Check if user exists
   if (!user) {
-    res.status(404).json({ errors: ["Usuário não encontrado."] });
-    return;
+    return res.status(404).json({ errors: ["Usuário não encontrado."] });
   }
 
   // Check if password matches
   if (!(await bcrypt.compare(password, user.password))) {
-    res.status(422).json({ errors: ["Senha inválida"] });
-    return;
+    return res.status(422).json({ errors: ["Senha inválida"] });
   }
 
   // Return user whith
@@ -79,7 +77,7 @@ const login = async (req, res) => {
 // get current logged in user
 const getCurrentUser = async (req, res) => {
   const user = req.user;
-  res.status(200).json(user);
+  return res.status(200).json(user);
 };
 
 // Update an user
@@ -109,7 +107,7 @@ const update = async (req, res) => {
 
   await user.save();
 
-  res.status(200).json(user);
+  return res.status(200).json(user);
 };
 
 // Get user by id
@@ -122,13 +120,11 @@ const getUserById = async (req, res) => {
     );
     // check if user exists
     if (!user) {
-      res.status(404).json({ errors: ["Usuário não encontrado."] });
-      return;
+      return res.status(404).json({ errors: ["Usuário não encontrado."] });
     }
     res.status(200).json(user);
   } catch (error) {
-    res.status(404).json({ errors: ["Usuário não encontrado."] });
-    return;
+    return res.status(404).json({ errors: ["Usuário não encontrado."] });
   }
 };
 

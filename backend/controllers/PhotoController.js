@@ -21,12 +21,11 @@ const insertPhoto = async (req, res) => {
 
   // if photo was created successfully, return data
   if (!newPhoto) {
-    res.status(422).json({
+    return res.status(422).json({
       errors: ["Houve um problema, por favor tente novamente mais tarde"],
     });
-    return;
   }
-  res.status(201).json(newPhoto);
+  return res.status(201).json(newPhoto);
 };
 
 // Remove a photo from DB
@@ -39,8 +38,7 @@ const deletePhoto = async (req, res) => {
     // Check if photo exists
 
     if (!photo) {
-      res.status(404).json({ errors: ["Foto não encontrada."] });
-      return;
+      return res.status(404).json({ errors: ["Foto não encontrada."] });
     }
     // Check if photo belongs to user
     if (!photo.userId.equals(reqUser._id)) {
@@ -54,8 +52,7 @@ const deletePhoto = async (req, res) => {
       .status(200)
       .json({ id: photo._id, message: "Foto excluída com sucesso." });
   } catch (error) {
-    res.status(404).json({ errors: ["Foto não encontrada."] });
-    return;
+    return res.status(404).json({ errors: ["Foto não encontrada."] });
   }
 };
 
@@ -64,8 +61,7 @@ const getAllPhotos = async (req, res) => {
   const photos = await Photo.find({})
     .sort([["createdAt", -1]])
     .exec();
-  res.status(200).json(photos);
-  return;
+  return res.status(200).json(photos);
 };
 
 // Get user photos
@@ -77,9 +73,25 @@ const getUserPhotos = async (req, res) => {
   return res.status(200).json(photos);
 };
 
+// Get photo by id
+const getPhotoById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const photo = await Photo.findById(mongoose.Types.ObjectId(id));
+
+    // Check if photo exists
+    if (!photo)
+      return res.status(404).json({ errors: ["Foto não encontrada"] });
+    return res.status(200).json(photo);
+  } catch (error) {
+    return res.status(404).json({ errors: ["Foto não encontrada."] });
+  }
+};
+
 module.exports = {
   insertPhoto,
   deletePhoto,
   getAllPhotos,
   getUserPhotos,
+  getPhotoById,
 };
