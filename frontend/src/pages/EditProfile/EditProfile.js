@@ -86,6 +86,7 @@ const EditProfile = () => {
       {(user.profileImage || previewImage) && (
         <img
           className="profile-image"
+          onChange={(e) => setProfileImage(e.target.value)}
           src={
             previewImage
               ? URL.createObjectURL(previewImage)
