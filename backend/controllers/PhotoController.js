@@ -1,5 +1,5 @@
 const Photo = require("../models/Photo");
-
+const User = require("../models/User");
 const mongoose = require("mongoose");
 
 // Insert a photo, with an user related to it
@@ -7,10 +7,15 @@ const insertPhoto = async (req, res) => {
   const { title } = req.body;
   const image = req.file.filename;
 
+  console.log(req.body);
+
   const reqUser = req.user;
+
   const user = await User.findById(reqUser._id);
 
-  // Created a photo
+  console.log(user.name);
+
+  // Create photo
   const newPhoto = await Photo.create({
     image,
     title,
@@ -18,13 +23,15 @@ const insertPhoto = async (req, res) => {
     userName: user.name,
   });
 
-  // if photo was created successfully, return data
+  // If user was photo sucessfully, return data
   if (!newPhoto) {
-    return res.status(422).json({
-      errors: ["Houve um problema, por favor tente novamente mais tarde"],
+    res.status(422).json({
+      errors: ["Houve um erro, por favor tente novamente mais tarde."],
     });
+    return;
   }
-  return res.status(201).json(newPhoto);
+
+  res.status(201).json(newPhoto);
 };
 
 // Remove a photo from DB

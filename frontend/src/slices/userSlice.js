@@ -83,7 +83,7 @@ export const userSlice = createSlice({
       .addCase(updateProfile.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        state.user = null;
+        state.user = {};
       })
       .addCase(getUserDetails.pending, (state) => {
         state.loading = true;
