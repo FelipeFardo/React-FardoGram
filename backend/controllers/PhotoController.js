@@ -1,7 +1,6 @@
 const Photo = require("../models/Photo");
-const User = require("../models/User");
+
 const mongoose = require("mongoose");
-const { off } = require("../routes/Router");
 
 // Insert a photo, with an user related to it
 const insertPhoto = async (req, res) => {
@@ -9,7 +8,7 @@ const insertPhoto = async (req, res) => {
   const image = req.file.filename;
 
   const reqUser = req.user;
-  const user = await User.findById(req.user._id);
+  const user = await User.findById(reqUser._id);
 
   // Created a photo
   const newPhoto = await Photo.create({

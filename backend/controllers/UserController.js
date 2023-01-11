@@ -67,7 +67,7 @@ const login = async (req, res) => {
   }
 
   // Return user whith
-  res.status(201).json({
+  res.status(200).json({
     _id: user.id,
     profileImage: user.profileImage,
     token: generateToken(user.id),
@@ -83,11 +83,15 @@ const getCurrentUser = async (req, res) => {
 // Update an user
 const update = async (req, res) => {
   const { name, password, bio } = req.body;
+
   let profileImage = null;
+
   if (req.file) {
     profileImage = req.file.filename;
   }
+
   const reqUser = req.user;
+  
   const user = await User.findById(mongoose.Types.ObjectId(reqUser.id)).select(
     "-password"
   );
