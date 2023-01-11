@@ -31,7 +31,7 @@ const insertPhoto = async (req, res) => {
     return;
   }
 
-  res.status(201).json(newPhoto);
+  res.status(201).json({ newPhoto, message: "Foto publicada com sucesso!" });
 };
 
 // Remove a photo from DB
