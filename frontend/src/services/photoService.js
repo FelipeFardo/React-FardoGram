@@ -28,6 +28,21 @@ const getUserPhotos = async (id, token) => {
   }
 };
 
+// Like a photo
+const like = async (id, token) => {
+  const config = requestConfig("PUT", null, token);
+
+  try {
+    const res = await fetch(api + "/photos/like/" + id, config)
+      .then((res) => res.json())
+      .catch((err) => err);
+
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // Delete a photo
 const deletePhoto = async (id, token) => {
   const config = requestConfig("DELETE", null, token);
@@ -73,6 +88,7 @@ const photoService = {
   deletePhoto,
   updatePhoto,
   getPhoto,
+  like,
 };
 
 export default photoService;
