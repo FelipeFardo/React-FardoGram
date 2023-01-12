@@ -98,10 +98,24 @@ const comment = async (data, id, token) => {
 
 // Get all photos
 const getPhotos = async (token) => {
-  const config = requestConfig("GET",null,token);
+  const config = requestConfig("GET", token);
   try {
-    const res = await fetch(api + "/photos", config)
-      .then((res) => res.json)
+    const res = await fetch(api + "/photos/", config)
+      .then((res) => res.json())
+      .catch((err) => err);
+    console.log(res);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// Search photo by title
+const searchPhotos = async (query, token) => {
+  const config = requestConfig("GET", null, token);
+  try {
+    const res = await fetch(api + "/photos/search?q=" + query, config)
+      .then((res) => res.json())
       .catch((err) => err);
     return res;
   } catch (error) {
@@ -118,6 +132,7 @@ const photoService = {
   like,
   comment,
   getPhotos,
+  searchPhotos,
 };
 
 export default photoService;
