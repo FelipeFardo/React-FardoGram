@@ -24,7 +24,7 @@ const Home = () => {
   // Load all photos
   useEffect(() => {
     dispatch(getPhotos());
-  });
+  }, [dispatch]);
 
   const handleLike = (photo = null) => {
     dispatch(like(photo._id));
