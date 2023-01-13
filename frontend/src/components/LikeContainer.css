@@ -1,7 +1,9 @@
 .like {
-  display: flex;
+  text-align: center;
   align-items: center;
   border-top: 1px solid #363636;
+  margin: auto;
+  padding-top: 1em;
 }
 
 #home .like {
