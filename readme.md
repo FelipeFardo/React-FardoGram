@@ -1,4 +1,4 @@
-# Project FardoGram
+# Projeto FardoGram
 [![NPM](https://img.shields.io/npm/l/react)](https://github.com/FelipeFardo/React-FardoGram/blob/main/LICENSE)
 
 
